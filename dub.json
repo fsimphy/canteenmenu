@@ -1,0 +1,13 @@
+{
+	"name": "canteenmenu",
+	"authors": [
+		"Johannes Loher",
+        "Oliver Rümpelein"
+	],
+	"dependencies": {
+		"requests": "~>0.3.0"
+	},
+	"description": "Fetch and parse the menu of the canteen of the university of regensburg",
+	"copyright": "Copyright © 2016, Johannes Loher",
+	"license": "proprietary"
+}
