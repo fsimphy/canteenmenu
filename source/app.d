@@ -1,7 +1,8 @@
 import std.algorithm : filter, map, startsWith;
 import std.conv : to;
 import std.csv : csvReader, Malformed;
-import std.array : array, replace;
+import std.algorithm : joiner, sort, splitter, uniq;
+import std.array : array, join, replace, split;
 import std.datetime : Clock, DayOfWeek, dur;
 import std.encoding : transcode, Windows1252String;
 import std.format : format;
@@ -10,6 +11,7 @@ import std.json : JSONValue;
 import std.regex : replaceAll, regex, Regex;
 import std.string : strip;
 import std.stdio : File, writeln;
+
 
 import requests : getContent;
 
@@ -51,7 +53,10 @@ auto removeAllergenes(string productName)
 {
     auto allergeneFinder = regex(r"\([A-Z\d]{1,2}(,[A-Z\d]{1,2})*\)");
     return productName.replaceAll(allergeneFinder, "").strip;
-} unittest {
+}
+
+unittest
+{
     assert("(1)".removeAllergenes == "");
     assert("(A)".removeAllergenes == "");
     assert("(11)".removeAllergenes == "");
@@ -60,21 +65,19 @@ auto removeAllergenes(string productName)
     assert("Hähnchenbrust (karibisch) (12,G,3)".removeAllergenes == "Hähnchenbrust (karibisch)");
 }
 
-
-
 auto getProductGroup(Content)(Content content, string warengruppe, string dateOfInterestString)
 {
     return content.csvReader!(string[string])(null, ';', Malformed.ignore)
-        .filter!(a => a["datum"] == dateOfInterestString && a["warengruppe"].startsWith(warengruppe))
-        .map!(data => ["name" : data["name"].removeAllergenes, "notes" : data["kennz"], "price" : data["stud"]])
-        .array;
+        .filter!(a => a["datum"] == dateOfInterestString && a["warengruppe"].startsWith(
+                warengruppe)).map!(data => ["name" : data["name"].removeAllergenes,
+                "notes" : data["kennz"].split(',').sort.uniq.join(','), "price" : data["stud"]]).array;
 }
 
 void main(string[] args)
 {
     string fileName;
-    auto helpInformation = getopt(args,
-            "file|f", "The file that the data is written to.", &fileName);
+    auto helpInformation = getopt(args, "file|f",
+            "The file that the data is written to.", &fileName);
     if (helpInformation.helpWanted)
     {
         defaultGetoptPrinter("Some information about the program.", helpInformation.options);
@@ -101,7 +104,8 @@ void main(string[] args)
     if (fileName !is null)
     {
         auto output = File(fileName, "w");
-        scope(exit) output.close;
+        scope (exit)
+            output.close;
         output.writeln(j.toPrettyString.replace("\\/", "/"));
     }
     else
