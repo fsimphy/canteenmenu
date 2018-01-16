@@ -5,9 +5,9 @@
         "Oliver Rümpelein"
 	],
 	"dependencies": {
-		"requests": "0.5.3"
+		"requests": "~>0.6.0"
 	},
-	"description": "Fetch and parse the menu of the canteen of the university of regensburg",
-	"copyright": "Copyright © 2016, Johannes Loher",
-	"license": "proprietary"
+	"description": "A fetcher and CSV2JSON converter for the canteen of the University of Regensburg written in D",
+	"copyright": "Copyright © 2018, Johannes Loher",
+	"license": "MIT"
 }
