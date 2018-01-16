@@ -8,10 +8,9 @@ import std.encoding : transcode, Windows1252String;
 import std.format : format;
 import std.getopt : defaultGetoptPrinter, getopt;
 import std.json : JSONValue;
-import std.regex : replaceAll, regex, Regex;
-import std.string : strip;
 import std.stdio : File, writeln;
 
+import allergenes;
 
 import requests : getContent;
 
@@ -49,28 +48,13 @@ auto getDateOfInterest()
     }
 }
 
-auto removeAllergenes(string productName)
-{
-    auto allergeneFinder = regex(r"\([A-Z\d]{1,2}(,[A-Z\d]{1,2})*\)");
-    return productName.replaceAll(allergeneFinder, "").strip;
-}
-
-unittest
-{
-    assert("(1)".removeAllergenes == "");
-    assert("(A)".removeAllergenes == "");
-    assert("(11)".removeAllergenes == "");
-    assert("(1,A,11)".removeAllergenes == "");
-    assert("(karibisch)".removeAllergenes == "(karibisch)");
-    assert("Hähnchenbrust (karibisch) (12,G,3)".removeAllergenes == "Hähnchenbrust (karibisch)");
-}
-
 auto getProductGroup(Content)(Content content, string warengruppe, string dateOfInterestString)
 {
     return content.csvReader!(string[string])(null, ';', Malformed.ignore)
         .filter!(a => a["datum"] == dateOfInterestString && a["warengruppe"].startsWith(
                 warengruppe)).map!(data => ["name" : data["name"].removeAllergenes,
-                "notes" : data["kennz"].split(',').sort.uniq.join(','), "price" : data["stud"]]).array;
+                "notes" : data["kennz"].split(',').sort.uniq.join(','), "price" : data["stud"]])
+        .array;
 }
 
 void main(string[] args)
