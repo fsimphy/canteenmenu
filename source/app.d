@@ -80,7 +80,7 @@ void main(string[] args)
             "The file that the data is written to.", &fileName);
     if (helpInformation.helpWanted)
     {
-        defaultGetoptPrinter("Some information about the program.", helpInformation.options);
+        defaultGetoptPrinter("Usage: canteenmenu [options]\n\n Options:", helpInformation.options);
         return;
     }
     auto dateOfInterest = getDateOfInterest;
