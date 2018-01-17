@@ -14,6 +14,9 @@ import allergenes;
 
 import requests : getContent;
 
+enum ver = "v0.0.0";
+enum programName = "canteenmenu";
+
 auto getDateOfInterest()
 {
     auto currentTime = Clock.currTime;
@@ -60,13 +63,21 @@ auto getProductGroup(Content)(Content content, string warengruppe, string dateOf
 void main(string[] args)
 {
     string fileName;
-    auto helpInformation = getopt(args, "file|f",
-            "The file that the data is written to.", &fileName);
+    bool versionWanted;
+    auto helpInformation = getopt(args, "file|f", "The file that the data is written to.",
+            &fileName, "version|v", "Display the version of this program.", &versionWanted);
     if (helpInformation.helpWanted)
     {
         defaultGetoptPrinter("Usage: canteenmenu [options]\n\n Options:", helpInformation.options);
         return;
     }
+
+    if (versionWanted)
+    {
+        writeln(programName, " ", ver);
+        return;
+    }
+
     auto dateOfInterest = getDateOfInterest;
     auto dateOfInterestString = "%02s.%02s.%s".format(dateOfInterest.day,
             dateOfInterest.month.to!int, dateOfInterest.year);
