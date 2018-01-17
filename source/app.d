@@ -14,7 +14,7 @@ import allergenes;
 
 import requests : getContent;
 
-enum ver = "v0.0.0";
+enum ver = "v0.1.0";
 enum programName = "canteenmenu";
 
 auto getDateOfInterest()
