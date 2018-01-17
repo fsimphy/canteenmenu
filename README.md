@@ -14,7 +14,8 @@ Usage
 Usage: canteenmenu [options]
 
  Options:
--f --file The file that the data is written to.
--h --help This help information.
+-f    --file The file that the data is written to.
+-v --version Display the version of this program.
+-h    --help This help information.
 
 ```
