@@ -5,7 +5,7 @@ A fetcher and CSV2JSON converter for the canteen of the University of Regensburg
 ---------------------------------------------------------------------------------------------
 
 canteenmenu is a tool which lets you fetch the menu of the canteen of the
-University of Regensburg and out it as JSON.
+University of Regensburg and output it as JSON.
 
 Usage
 -----
