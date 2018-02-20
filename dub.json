@@ -5,7 +5,7 @@
         "Oliver Rümpelein"
 	],
 	"dependencies": {
-		"requests": "~>0.6.0"
+		"requests": "~>0.7.2"
 	},
 	"description": "A fetcher and CSV2JSON converter for the canteen of the University of Regensburg written in D",
 	"copyright": "Copyright © 2018, Johannes Loher",
